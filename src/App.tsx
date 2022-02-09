@@ -1,4 +1,4 @@
-import { useState } from "react";
+import GameListener from "./GameListener";
 import { WordRow } from "./WordRow";
 
 export default function App() {
@@ -8,9 +8,13 @@ export default function App() {
         <h1 className="text-4xl text-center">Thug-Wordle</h1>
       </header>
       <main>
-        <WordRow letters="let" />
-        <WordRow letters="lett" />
-        <WordRow letters="hello" />
+        <GameListener>
+          <WordRow key={0} rowNumber={0} />
+          <WordRow key={1} rowNumber={1} />
+          <WordRow key={2} rowNumber={2} />
+          <WordRow key={3} rowNumber={3} />
+          <WordRow key={4} rowNumber={4} />
+        </GameListener>
       </main>
     </div>
   );
