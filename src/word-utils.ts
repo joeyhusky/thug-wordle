@@ -11,10 +11,10 @@ export enum LetterState {
   Match,
 }
 
-export const computeGuess = (guess: string, wordStr: string): LetterState[] => {
+export const computeGuess = (guess: string, answer: string): LetterState[] => {
   const result: LetterState[] = [];
 
-  const answerArray = wordStr.split("");
+  const answerArray = answer.split("");
   const guessArray = guess.split("");
 
   guessArray.forEach((letter, idx) => {
