@@ -7,7 +7,7 @@ export default function App() {
   const existingGuesses = useStore((store) => store.userGuesses);
   const hasWon = useStore((store) => store.hasWon);
   const maybeRenderAdditionalRow = () => {
-    const isCurrentlyGuessing = existingGuesses.length < 6;
+    const isCurrentlyGuessing = existingGuesses.length < 6 && !hasWon;
     if (isCurrentlyGuessing) {
       return (
         <WordRow key={existingGuesses.length + 1} letters={currentGuess} />

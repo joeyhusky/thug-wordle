@@ -34,8 +34,7 @@ export const useStore = create<StateStore>((set, get) => ({
       return;
     }
     if (get().answer === get().currentGuess) {
-      set((state) => ({ hasWon: true }));
-      return;
+      set(() => ({ hasWon: true }));
     }
     set((state) => ({
       userGuesses: [
