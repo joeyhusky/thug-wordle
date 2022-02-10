@@ -1,6 +1,11 @@
 import create from "zustand";
 import wordbank from "./wordbank.json";
-import { computeGuess, LetterState, WordGuess } from "./word-utils";
+import {
+  computeGuess,
+  getRandomWord,
+  LetterState,
+  WordGuess,
+} from "./word-utils";
 import { NUMBER_OF_GUESSES } from "./App";
 
 interface StateStore {
@@ -18,9 +23,9 @@ interface StateStore {
 }
 
 export const useStore = create<StateStore>((set, get) => ({
-  dictionary: new Set(wordbank),
+  dictionary: new Set(wordbank.valid),
   currentGuess: "",
-  answer: "great",
+  answer: getRandomWord(),
   userGuesses: [],
   isGameOver: false,
   hasWon: false,
