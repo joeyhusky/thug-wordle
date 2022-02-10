@@ -38,7 +38,7 @@ const GameListener: React.FC = (props) => {
     }
   };
   useEventListener("keydown", keyDownListener);
-  return <div>{props.children}</div>;
+  return <>{props.children}</>;
 };
 
 export default GameListener;

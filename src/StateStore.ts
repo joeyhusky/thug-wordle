@@ -7,6 +7,7 @@ interface StateStore {
   currentGuess: string;
   answer: string;
   userGuesses: WordGuess[];
+  hasWon: boolean;
   letterPressed: (guess: string) => void;
   enterPressed: () => void;
   backspacePressed: () => void;
@@ -15,13 +16,14 @@ interface StateStore {
 export const useStore = create<StateStore>((set, get) => ({
   dictionary: new Set(wordbank),
   currentGuess: "",
-  answer: "potot",
+  answer: "great",
   userGuesses: [],
+  hasWon: false,
   enterPressed: () => {
     if (get().currentGuess.length !== 5) return;
     if (
       get().userGuesses.some(
-        (v) => v.map((g) => g.letter).join() === get().currentGuess
+        (v) => v.map((g) => g.letter).join("") === get().currentGuess
       )
     ) {
       alert("you've already guessed this word!");
@@ -31,11 +33,16 @@ export const useStore = create<StateStore>((set, get) => ({
       alert("not a valid word!");
       return;
     }
+    if (get().answer === get().currentGuess) {
+      set((state) => ({ hasWon: true }));
+      return;
+    }
     set((state) => ({
       userGuesses: [
         ...state.userGuesses,
         computeGuess(get().currentGuess, state.answer),
       ],
+      currentGuess: "",
     }));
   },
   letterPressed: (letter: string) => {

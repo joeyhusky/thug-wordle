@@ -40,7 +40,6 @@ export const computeGuess = (guess: string, answer: string): WordGuess => {
   });
 
   result.forEach((ans) => {
-    console.log("current answerLetterCount: ", answerLetterCount);
     if (ans.guessState === LetterState.Present) {
       if (answerLetterCount[ans.letter] > 0) {
         answerLetterCount[ans.letter] -= 1;
