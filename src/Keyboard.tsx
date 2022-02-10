@@ -1,5 +1,6 @@
 import { prependOnceListener } from "process";
 import { useState } from "react";
+import { ColorTailwindHelper } from "./Color";
 import { useStore } from "./StateStore";
 import { LetterState } from "./word-utils";
 
@@ -7,7 +8,7 @@ export const Keyboard: React.FC = () => {
   const keyPressed = useStore((store) => store.letterPressed);
   const backspacePressed = useStore((store) => store.backspacePressed);
   const enterPressed = useStore((store) => store.enterPressed);
-  const [keyGuesses, setKeyGuesses] = useState<Record<string, LetterState>>({});
+  const keyboardLetterState = useStore((store) => store.keyboardLetterState);
 
   return (
     <div className={"flex flex-col"}>
@@ -19,7 +20,13 @@ export const Keyboard: React.FC = () => {
             if (letter === "Backspace")
               keypressCallback = () => backspacePressed();
             if (letter === "Enter") keypressCallback = () => enterPressed();
+            let letterState = ColorTailwindHelper[keyboardLetterState[letter]];
 
+            if (letterState) {
+              styles += letterState;
+            } else if (letter !== "") {
+              styles += " bg-gray-300";
+            }
             return (
               <button
                 key={letter + idx}

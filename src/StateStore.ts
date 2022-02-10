@@ -42,25 +42,33 @@ export const useStore = create<StateStore>((set, get) => ({
     }
     if (get().answer === get().currentGuess) {
       set(() => ({ isGameOver: true, hasWon: true }));
-      return;
     } else if (get().userGuesses.length === NUMBER_OF_GUESSES - 1) {
       set(() => ({ isGameOver: true, hasWon: false }));
-      return;
     }
     const keyboardLetterState = get().keyboardLetterState;
-    const result = computeGuess(get().currentGuess, get().answer);
+    const guess = computeGuess(get().currentGuess, get().answer);
     // TODO Update keyboard letter state logic
-    // result.forEach((l, idx) => {
-    //   const guessedLetter = l.letter;
+    guess.result.map((l, idx) => {
+      const guessedLetter = guess.word[idx];
 
-    //   const curLetterState = keyboardLetterState[guessedLetter];
-    //   switch (curLetterState) {
-    //     case LetterState.Match:
-    //       break;
-    //   }
-    // });
+      const curLetterState = keyboardLetterState[guessedLetter];
+      switch (curLetterState) {
+        case LetterState.Match:
+          break;
+        case LetterState.Miss:
+          break;
+        case LetterState.Present:
+          if (l === LetterState.Match) {
+            keyboardLetterState[guessedLetter] = l;
+          }
+          break;
+
+        default:
+          keyboardLetterState[guessedLetter] = l;
+      }
+    });
     set((state) => ({
-      userGuesses: [...state.userGuesses, result],
+      userGuesses: [...state.userGuesses, guess],
       keyboardLetterState: {
         ...get().keyboardLetterState,
       },

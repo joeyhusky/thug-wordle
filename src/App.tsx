@@ -26,8 +26,9 @@ export default function App() {
     rows.push({ word: currentGuess });
   }
   const guessesRemaining = NUMBER_OF_GUESSES - existingGuesses.length - 1;
-
-  rows = rows.concat(Array(guessesRemaining).fill({ word: "" }));
+  if (guessesRemaining > 0) {
+    rows = rows.concat(Array(guessesRemaining).fill({ word: "" }));
+  }
 
   const renderRows = () => {
     return rows.map((guess, idx) => (
