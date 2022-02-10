@@ -4,19 +4,22 @@ import { LetterState } from "./word-utils";
 const LETTER_LENGTH = 5;
 
 interface WordRowProps {
-  letters: string;
+  letters: string | undefined;
   wordGuess?: LetterState[];
 }
 
-export const WordRow: React.FC<WordRowProps> = (props: WordRowProps) => {
-  const lettersRemaining = LETTER_LENGTH - props.letters.length;
-  const currentWord = props.letters
+export const WordRow: React.FC<WordRowProps> = ({
+  letters = "",
+  wordGuess,
+}: WordRowProps) => {
+  const lettersRemaining = LETTER_LENGTH - letters.length;
+  const currentWord = letters
     .split("")
     .concat(Array(lettersRemaining).fill(""));
   return (
     <div className="grid grid-cols-5 gap-4">
       {currentWord.map((char, idx) => {
-        const guess = props.wordGuess?.[idx];
+        const guess = wordGuess?.[idx];
         return <CharacterBox letter={char} guess={guess} key={idx} />;
       })}
     </div>

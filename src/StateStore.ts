@@ -1,12 +1,14 @@
 import create from "zustand";
 import wordbank from "./wordbank.json";
 import { computeGuess, LetterState, WordGuess } from "./word-utils";
+import { NUMBER_OF_GUESSES } from "./App";
 
 interface StateStore {
   dictionary: Set<string>;
   currentGuess: string;
   answer: string;
   userGuesses: WordGuess[];
+  isGameOver: boolean;
   hasWon: boolean;
   keyboardLetterState: Record<string, LetterState>;
 
@@ -20,24 +22,25 @@ export const useStore = create<StateStore>((set, get) => ({
   currentGuess: "",
   answer: "great",
   userGuesses: [],
+  isGameOver: false,
   hasWon: false,
   keyboardLetterState: {},
   enterPressed: () => {
-    if (get().currentGuess.length !== 5) return;
     if (
-      get().userGuesses.some(
-        (v) => v.map((g) => g.letter).join("") === get().currentGuess
+      !isValidWord(
+        get().currentGuess,
+        get().dictionary,
+        get().userGuesses.map((g) => g.word)
       )
     ) {
-      alert("you've already guessed this word!");
-      return;
-    }
-    if (!get().dictionary.has(get().currentGuess)) {
-      alert("not a valid word!");
       return;
     }
     if (get().answer === get().currentGuess) {
-      set(() => ({ hasWon: true }));
+      set(() => ({ isGameOver: true, hasWon: true }));
+      return;
+    } else if (get().userGuesses.length === NUMBER_OF_GUESSES - 1) {
+      set(() => ({ isGameOver: true, hasWon: false }));
+      return;
     }
     const keyboardLetterState = get().keyboardLetterState;
     const result = computeGuess(get().currentGuess, get().answer);
@@ -77,3 +80,20 @@ export const useStore = create<StateStore>((set, get) => ({
     }));
   },
 }));
+
+const isValidWord = (
+  word: string,
+  wordBank: Set<string>,
+  previousGuesses: string[]
+): boolean => {
+  if (word.length !== 5) return false;
+  if (previousGuesses.some((v) => v === word)) {
+    alert("you've already guessed this word!");
+    return false;
+  }
+  if (!wordBank.has(word)) {
+    alert("not a valid word!");
+    return false;
+  }
+  return true;
+};

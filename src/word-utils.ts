@@ -5,12 +5,10 @@ export function getRandomWord() {
   return wordbank[randomIndex];
 }
 
-export type WordGuess = LetterGuessed[];
-
-interface LetterGuessed {
-  letter: string;
-  guessState: LetterState;
-}
+export type WordGuess = {
+  word: string;
+  result: LetterState[];
+};
 
 export enum LetterState {
   Miss,
@@ -19,7 +17,7 @@ export enum LetterState {
 }
 
 export const computeGuess = (guess: string, answer: string): WordGuess => {
-  const result: LetterGuessed[] = [];
+  const result: { guessState: LetterState; letter: string }[] = [];
   const answerArray = answer.split("");
   const guessArray = guess.split("");
 
@@ -49,5 +47,5 @@ export const computeGuess = (guess: string, answer: string): WordGuess => {
     }
   });
 
-  return result;
+  return { result: result.map((r) => r.guessState), word: guess };
 };

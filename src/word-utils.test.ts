@@ -10,13 +10,16 @@ describe("word utils", () => {
 
 describe("computeGuess", () => {
   it("populates a WordGuess with LetterState and letter", () => {
-    expect(computeGuess("album", "suave")).toEqual([
-      { letter: "a", guessState: LetterState.Present },
-      { letter: "l", guessState: LetterState.Miss },
-      { letter: "b", guessState: LetterState.Miss },
-      { letter: "u", guessState: LetterState.Present },
-      { letter: "m", guessState: LetterState.Miss },
-    ]);
+    expect(computeGuess("album", "suave")).toEqual({
+      result: [
+        LetterState.Present,
+        LetterState.Miss,
+        LetterState.Miss,
+        LetterState.Present,
+        LetterState.Miss,
+      ],
+      word: "album",
+    });
   });
 
   it("handles single present", () => {
@@ -27,9 +30,7 @@ describe("computeGuess", () => {
       LetterState.Miss,
       LetterState.Miss,
     ];
-    expect(
-      computeGuess("allow", "suave").map((guessData) => guessData.guessState)
-    ).toEqual(expectedResult);
+    expect(computeGuess("allow", "suave").result).toEqual(expectedResult);
   });
 
   it("handles all misses", () => {
@@ -40,15 +41,11 @@ describe("computeGuess", () => {
       LetterState.Miss,
       LetterState.Miss,
     ];
-    expect(
-      computeGuess("nnnnn", "suave").map((guessData) => guessData.guessState)
-    ).toEqual(expectedResult);
+    expect(computeGuess("nnnnn", "suave").result).toEqual(expectedResult);
   });
 
   it("handles complex match", () => {
-    expect(
-      computeGuess("dsase", "suese").map((guessData) => guessData.guessState)
-    ).toEqual([
+    expect(computeGuess("dsase", "suese").result).toEqual([
       LetterState.Miss,
       LetterState.Present,
       LetterState.Miss,
@@ -65,15 +62,11 @@ describe("computeGuess", () => {
       LetterState.Match,
       LetterState.Match,
     ];
-    expect(
-      computeGuess("suave", "suave").map((guessData) => guessData.guessState)
-    ).toEqual(expectedResult);
+    expect(computeGuess("suave", "suave").result).toEqual(expectedResult);
   });
 
   it("handles one match when two letters are present", () => {
-    expect(
-      computeGuess("solid", "boost").map((guessData) => guessData.guessState)
-    ).toEqual([
+    expect(computeGuess("solid", "boost").result).toEqual([
       LetterState.Present,
       LetterState.Match,
       LetterState.Miss,
@@ -83,9 +76,7 @@ describe("computeGuess", () => {
   });
 
   it("when two letters are present but answer has only one letter", () => {
-    expect(
-      computeGuess("allol", "smelt").map((guessData) => guessData.guessState)
-    ).toEqual([
+    expect(computeGuess("allol", "smelt").result).toEqual([
       LetterState.Miss,
       LetterState.Present,
       LetterState.Miss,
@@ -95,9 +86,7 @@ describe("computeGuess", () => {
   });
 
   it("when 1 letter matches but guess has more of the same letter", () => {
-    expect(
-      computeGuess("allol", "colon").map((guessData) => guessData.guessState)
-    ).toEqual([
+    expect(computeGuess("allol", "colon").result).toEqual([
       LetterState.Miss,
       LetterState.Miss,
       LetterState.Match,
