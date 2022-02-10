@@ -1,10 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-  computeGuess,
-  getRandomWord,
-  LetterState,
-  WordGuess,
-} from "./word-utils";
+import { computeGuess, getRandomWord, LetterState } from "./word-utils";
 
 describe("word utils", () => {
   it("gets a random word", () => {
@@ -51,16 +46,15 @@ describe("computeGuess", () => {
   });
 
   it("handles complex match", () => {
-    const expectedResult: LetterState[] = [
+    expect(
+      computeGuess("dsase", "suese").map((guessData) => guessData.guessState)
+    ).toEqual([
       LetterState.Miss,
       LetterState.Present,
       LetterState.Miss,
       LetterState.Match,
       LetterState.Match,
-    ];
-    expect(
-      computeGuess("dsase", "suese").map((guessData) => guessData.guessState)
-    ).toEqual(expectedResult);
+    ]);
   });
 
   it("handles full match ", () => {
@@ -84,6 +78,30 @@ describe("computeGuess", () => {
       LetterState.Match,
       LetterState.Miss,
       LetterState.Miss,
+      LetterState.Miss,
+    ]);
+  });
+
+  it("when two letters are present but answer has only one letter", () => {
+    expect(
+      computeGuess("allol", "smelt").map((guessData) => guessData.guessState)
+    ).toEqual([
+      LetterState.Miss,
+      LetterState.Present,
+      LetterState.Miss,
+      LetterState.Miss,
+      LetterState.Miss,
+    ]);
+  });
+
+  it("when 1 letter matches but guess has more of the same letter", () => {
+    expect(
+      computeGuess("allol", "colon").map((guessData) => guessData.guessState)
+    ).toEqual([
+      LetterState.Miss,
+      LetterState.Miss,
+      LetterState.Match,
+      LetterState.Match,
       LetterState.Miss,
     ]);
   });
