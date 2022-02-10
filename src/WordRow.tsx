@@ -1,3 +1,4 @@
+import { ColorTailwindHelper } from "./Color";
 import { LetterState } from "./word-utils";
 
 const LETTER_LENGTH = 5;
@@ -13,7 +14,7 @@ export const WordRow: React.FC<WordRowProps> = (props: WordRowProps) => {
     .split("")
     .concat(Array(lettersRemaining).fill(""));
   return (
-    <div className="grid grid-cols-5 gap-4 my-2">
+    <div className="grid grid-cols-5 gap-4">
       {currentWord.map((char, idx) => {
         const guess = props.wordGuess?.[idx];
         return <CharacterBox letter={char} guess={guess} key={idx} />;
@@ -26,11 +27,6 @@ interface CharacterBoxProps {
   guess?: LetterState;
   letter: string;
 }
-const ColorTailwindHelper = {
-  [LetterState.Match]: " border-green-200 bg-green-200",
-  [LetterState.Miss]: "border-gray-200 bg-gray-200",
-  [LetterState.Present]: "border-yellow-200 bg-yellow-200",
-};
 
 const CharacterBox = (props: CharacterBoxProps) => {
   const backgroundStyle =

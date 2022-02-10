@@ -1,6 +1,6 @@
 import create from "zustand";
 import wordbank from "./wordbank.json";
-import { computeGuess, WordGuess } from "./word-utils";
+import { computeGuess, LetterState, WordGuess } from "./word-utils";
 
 interface StateStore {
   dictionary: Set<string>;
@@ -8,6 +8,8 @@ interface StateStore {
   answer: string;
   userGuesses: WordGuess[];
   hasWon: boolean;
+  keyboardLetterState: Record<string, LetterState>;
+
   letterPressed: (guess: string) => void;
   enterPressed: () => void;
   backspacePressed: () => void;
@@ -19,6 +21,7 @@ export const useStore = create<StateStore>((set, get) => ({
   answer: "great",
   userGuesses: [],
   hasWon: false,
+  keyboardLetterState: {},
   enterPressed: () => {
     if (get().currentGuess.length !== 5) return;
     if (
@@ -36,11 +39,23 @@ export const useStore = create<StateStore>((set, get) => ({
     if (get().answer === get().currentGuess) {
       set(() => ({ hasWon: true }));
     }
+    const keyboardLetterState = get().keyboardLetterState;
+    const result = computeGuess(get().currentGuess, get().answer);
+    // TODO Update keyboard letter state logic
+    // result.forEach((l, idx) => {
+    //   const guessedLetter = l.letter;
+
+    //   const curLetterState = keyboardLetterState[guessedLetter];
+    //   switch (curLetterState) {
+    //     case LetterState.Match:
+    //       break;
+    //   }
+    // });
     set((state) => ({
-      userGuesses: [
-        ...state.userGuesses,
-        computeGuess(get().currentGuess, state.answer),
-      ],
+      userGuesses: [...state.userGuesses, result],
+      keyboardLetterState: {
+        ...get().keyboardLetterState,
+      },
       currentGuess: "",
     }));
   },

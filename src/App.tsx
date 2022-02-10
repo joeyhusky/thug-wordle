@@ -1,4 +1,5 @@
 import GameListener from "./GameListener";
+import { Keyboard } from "./Keyboard";
 import { useStore } from "./StateStore";
 import { WordRow } from "./WordRow";
 
@@ -6,19 +7,20 @@ export default function App() {
   const currentGuess = useStore((store) => store.currentGuess);
   const existingGuesses = useStore((store) => store.userGuesses);
   const hasWon = useStore((store) => store.hasWon);
-  const maybeRenderAdditionalRow = () => {
-    const isCurrentlyGuessing = existingGuesses.length < 6 && !hasWon;
-    if (isCurrentlyGuessing) {
-      return (
-        <WordRow key={existingGuesses.length + 1} letters={currentGuess} />
-      );
-    }
-  };
+
   const renderGameOver = () => {
     if (hasWon) {
       return <span className="uppercase text-lime-400">Nice job!</span>;
     }
   };
+  const renderRemainingRows = () => {
+    const rows = [];
+    for (let i = existingGuesses.length; i < 6; i++) {
+      rows.push(<WordRow key={i} letters={""} />);
+    }
+    return rows;
+  };
+
   return (
     <div className="mx-auto w-96">
       <header className="border-b border-gray-500 pb-2 my-2">
@@ -33,8 +35,10 @@ export default function App() {
               wordGuess={guess.map((g) => g.guessState)}
             />
           ))}
-          {maybeRenderAdditionalRow()}
+          {<WordRow key={existingGuesses.length} letters={currentGuess} />}
+          {renderRemainingRows()}
           {renderGameOver()}
+          <Keyboard />
         </GameListener>
       </main>
     </div>
