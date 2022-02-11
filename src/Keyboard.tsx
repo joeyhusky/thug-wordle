@@ -1,8 +1,5 @@
-import { prependOnceListener } from "process";
-import { useState } from "react";
 import { ColorTailwindHelper } from "./Color";
 import { useStore } from "./StateStore";
-import { LetterState } from "./word-utils";
 
 export const Keyboard: React.FC = () => {
   const keyPressed = useStore((store) => store.letterPressed);
@@ -27,13 +24,22 @@ export const Keyboard: React.FC = () => {
             } else if (letter !== "") {
               styles += " bg-gray-300";
             }
-            return (
+
+            return letter === "Backspace" ? (
               <button
                 key={letter + idx}
                 className={styles}
                 onClick={keypressCallback}
               >
-                {letter}
+                {backspace}
+              </button>
+            ) : (
+              <button
+                key={letter + idx}
+                className={styles}
+                onClick={keypressCallback}
+              >
+                {letter === "Backspace" ? backspace : letter}
               </button>
             );
           })}
@@ -48,3 +54,20 @@ const keyboardKeys = [
   ["", "a", "s", "d", "f", "g", "h", "j", "k", "l", ""],
   ["Enter", "z", "x", "c", "v", "b", "n", "m", "Backspace"],
 ];
+
+const backspace = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="h-6 w-6 inline-block m-auto"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="1.5"
+      d="M12 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M3 12l6.414 6.414a2 2 0 001.414.586H19a2 2 0 002-2V7a2 2 0 00-2-2h-8.172a2 2 0 00-1.414.586L3 12z"
+    ></path>
+  </svg>
+);

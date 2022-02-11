@@ -1,7 +1,7 @@
 import GameListener from "./GameListener";
 import { Keyboard } from "./Keyboard";
 import { useStore } from "./StateStore";
-import { LetterState, WordGuess } from "./word-utils";
+import { WordGuess } from "./word-utils";
 import { WordRow } from "./WordRow";
 
 export const NUMBER_OF_GUESSES = 6;
