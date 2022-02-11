@@ -1,3 +1,4 @@
+import useGameListener from "./GameListener";
 import GameListener from "./GameListener";
 import { Keyboard } from "./Keyboard";
 import { useStore } from "./StateStore";
@@ -7,6 +8,7 @@ import { WordRow } from "./WordRow";
 export const NUMBER_OF_GUESSES = 6;
 
 export default function App() {
+  useGameListener();
   const currentGuess: string = useStore((store) => store.currentGuess);
   const existingGuesses: WordGuess[] = useStore((store) => store.userGuesses);
   const hasWon = useStore((store) => store.hasWon);
@@ -41,12 +43,12 @@ export default function App() {
       <header className="border-b border-gray-500 pb-2 my-2">
         <h1 className="text-4xl text-center">Thug-Wordle</h1>
       </header>
-      <main className="grid grid-rows-6 gap-4 my-4">
-        <GameListener>
+      <main>
+        <div className="grid grid-rows-6 gap-4 my-4">
           {renderRows()}
           {renderGameOver()}
-          <Keyboard />
-        </GameListener>
+        </div>
+        <Keyboard />
       </main>
     </div>
   );

@@ -21,10 +21,11 @@ const useEventListener = (
   }, [eventName, window]);
 };
 
-const GameListener: React.FC = (props) => {
+const useGameListener = () => {
   const guessLetter = useStore((store) => store.letterPressed);
   const removeLetter = useStore((store) => store.backspacePressed);
   const enterPressed = useStore((store) => store.enterPressed);
+
   const keyDownListener = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (
       event.key.charCodeAt(0) >= "a".charCodeAt(0) &&
@@ -38,7 +39,6 @@ const GameListener: React.FC = (props) => {
     }
   };
   useEventListener("keydown", keyDownListener);
-  return <>{props.children}</>;
 };
 
-export default GameListener;
+export default useGameListener;
