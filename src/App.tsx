@@ -40,7 +40,7 @@ export default function App() {
           <b className="text-2xl">{hasWon ? "Nice job sir" : "Game Over"}</b>
           <WordRow letters={answer} className="items-center" />
           <button
-            className="border border-green-500 mx-4 bg-green-500 rounded mt-4"
+            className="border border-green-500 mx-4 bg-green-500 rounded mt-4 shadow"
             onClick={newGame}
           >
             New Game
