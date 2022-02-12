@@ -1,4 +1,5 @@
 import create from "zustand";
+import { persist } from "zustand/middleware";
 import wordbank from "./wordbank.json";
 import {
   computeGuess,
@@ -17,82 +18,100 @@ interface StateStore {
   hasWon: boolean;
   keyboardLetterState: Record<string, LetterState>;
 
+  newGame: () => void;
   letterPressed: (guess: string) => void;
   enterPressed: () => void;
   backspacePressed: () => void;
 }
 
-export const useStore = create<StateStore>((set, get) => ({
-  dictionary: new Set(wordbank.valid),
-  currentGuess: "",
-  answer: getRandomWord(),
-  userGuesses: [],
-  isGameOver: false,
-  hasWon: false,
-  keyboardLetterState: {},
-  enterPressed: () => {
-    if (
-      !isValidWord(
-        get().currentGuess,
-        get().dictionary,
-        get().userGuesses.map((g) => g.word)
-      )
-    ) {
-      return;
-    }
-    if (get().answer === get().currentGuess) {
-      set(() => ({ isGameOver: true, hasWon: true }));
-    } else if (get().userGuesses.length === NUMBER_OF_GUESSES - 1) {
-      set(() => ({ isGameOver: true, hasWon: false }));
-    }
-    const keyboardLetterState = get().keyboardLetterState;
-    const guess = computeGuess(get().currentGuess, get().answer);
-    // TODO Update keyboard letter state logic
-    guess.result.map((l, idx) => {
-      const guessedLetter = guess.word[idx];
-
-      const curLetterState = keyboardLetterState[guessedLetter];
-      switch (curLetterState) {
-        case LetterState.Match:
-          break;
-        case LetterState.Miss:
-          break;
-        case LetterState.Present:
-          if (l === LetterState.Match) {
-            keyboardLetterState[guessedLetter] = l;
-          }
-          break;
-
-        default:
-          keyboardLetterState[guessedLetter] = l;
-      }
-    });
-    set((state) => ({
-      userGuesses: [...state.userGuesses, guess],
-      keyboardLetterState: {
-        ...get().keyboardLetterState,
-      },
+export const useStore = create<StateStore>(
+  persist(
+    (set, get) => ({
+      dictionary: new Set(wordbank.valid),
       currentGuess: "",
-    }));
-  },
-  letterPressed: (letter: string) => {
-    if (letter.length !== 1 || get().currentGuess.length === 5) {
-      return;
-    }
-    set((state) => ({
-      currentGuess: state.currentGuess + letter,
-    }));
-  },
+      answer: "bread",
+      userGuesses: [],
+      isGameOver: false,
+      hasWon: false,
+      keyboardLetterState: {},
+      newGame: () => {
+        set((state) => ({
+          isGameOver: false,
+          userGuesses: [],
+          answer: getRandomWord(),
+          hasWon: false,
+          keyboardLetterState: {},
+          currentGuess: "",
+        }));
+      },
+      enterPressed: () => {
+        if (
+          !isValidWord(
+            get().currentGuess,
+            get().dictionary,
+            get().userGuesses.map((g) => g.word)
+          )
+        ) {
+          return;
+        }
+        if (get().answer === get().currentGuess) {
+          set(() => ({ isGameOver: true, hasWon: true }));
+        } else if (get().userGuesses.length === NUMBER_OF_GUESSES - 1) {
+          set(() => ({ isGameOver: true, hasWon: false }));
+        }
+        const keyboardLetterState = get().keyboardLetterState;
+        const guess = computeGuess(get().currentGuess, get().answer);
+        // TODO Update keyboard letter state logic
+        guess.result.map((l, idx) => {
+          const guessedLetter = guess.word[idx];
 
-  backspacePressed: () => {
-    set((state) => ({
-      currentGuess: state.currentGuess.substring(
-        0,
-        state.currentGuess.length - 1
-      ),
-    }));
-  },
-}));
+          const curLetterState = keyboardLetterState[guessedLetter];
+          switch (curLetterState) {
+            case LetterState.Match:
+              break;
+            case LetterState.Miss:
+              break;
+            case LetterState.Present:
+              if (l === LetterState.Match) {
+                keyboardLetterState[guessedLetter] = l;
+              }
+              break;
+
+            default:
+              keyboardLetterState[guessedLetter] = l;
+          }
+        });
+        set((state) => ({
+          userGuesses: [...state.userGuesses, guess],
+          keyboardLetterState: {
+            ...get().keyboardLetterState,
+          },
+          currentGuess: "",
+        }));
+      },
+      letterPressed: (letter: string) => {
+        if (letter.length !== 1 || get().currentGuess.length === 5) {
+          return;
+        }
+        set((state) => ({
+          currentGuess: state.currentGuess + letter,
+        }));
+      },
+      backspacePressed: () => {
+        set((state) => ({
+          currentGuess: state.currentGuess.substring(
+            0,
+            state.currentGuess.length - 1
+          ),
+        }));
+      },
+    }),
+    {
+      name: "thug-wordle",
+      getStorage: () => localStorage,
+    }
+  )
+);
 
 const isValidWord = (
   word: string,
