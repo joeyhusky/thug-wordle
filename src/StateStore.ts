@@ -29,7 +29,7 @@ export const useStore = create<StateStore>(
     (set, get) => ({
       dictionary: new Set(wordbank.valid),
       currentGuess: "",
-      answer: "bread",
+      answer: getRandomWord(),
       userGuesses: [],
       isGameOver: false,
       hasWon: false,
