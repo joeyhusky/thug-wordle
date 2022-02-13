@@ -1,6 +1,5 @@
 import create from "zustand";
 import { persist } from "zustand/middleware";
-import wordbank from "./wordbank.json";
 import {
   computeGuess,
   getRandomWord,
