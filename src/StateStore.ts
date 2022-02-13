@@ -4,13 +4,13 @@ import wordbank from "./wordbank.json";
 import {
   computeGuess,
   getRandomWord,
+  isValidWord,
   LetterState,
   WordGuess,
 } from "./word-utils";
 import { NUMBER_OF_GUESSES } from "./App";
 
 interface StateStore {
-  dictionary: Set<string>;
   currentGuess: string;
   answer: string;
   userGuesses: WordGuess[];
@@ -27,7 +27,6 @@ interface StateStore {
 export const useStore = create<StateStore>(
   persist(
     (set, get) => ({
-      dictionary: new Set(wordbank.valid),
       currentGuess: "",
       answer: getRandomWord(),
       userGuesses: [],
@@ -35,7 +34,7 @@ export const useStore = create<StateStore>(
       hasWon: false,
       keyboardLetterState: {},
       newGame: () => {
-        set((state) => ({
+        set((_) => ({
           isGameOver: false,
           userGuesses: [],
           answer: getRandomWord(),
@@ -45,23 +44,18 @@ export const useStore = create<StateStore>(
         }));
       },
       enterPressed: () => {
-        if (
-          !isValidWord(
-            get().currentGuess,
-            get().dictionary,
-            get().userGuesses.map((g) => g.word)
-          )
-        ) {
+        const state = get();
+        if (!isValidWord(state.currentGuess)) {
           return;
         }
-        if (get().answer === get().currentGuess) {
+        if (state.answer === state.currentGuess) {
           set(() => ({ isGameOver: true, hasWon: true }));
-        } else if (get().userGuesses.length === NUMBER_OF_GUESSES - 1) {
+        } else if (state.userGuesses.length === NUMBER_OF_GUESSES - 1) {
           set(() => ({ isGameOver: true, hasWon: false }));
         }
-        const keyboardLetterState = get().keyboardLetterState;
-        const guess = computeGuess(get().currentGuess, get().answer);
-        // TODO Update keyboard letter state logic
+        const keyboardLetterState = state.keyboardLetterState;
+        const guess = computeGuess(state.currentGuess, state.answer);
+
         guess.result.map((l, idx) => {
           const guessedLetter = guess.word[idx];
 
@@ -84,7 +78,7 @@ export const useStore = create<StateStore>(
         set((state) => ({
           userGuesses: [...state.userGuesses, guess],
           keyboardLetterState: {
-            ...get().keyboardLetterState,
+            ...state.keyboardLetterState,
           },
           currentGuess: "",
         }));
@@ -112,20 +106,3 @@ export const useStore = create<StateStore>(
     }
   )
 );
-
-const isValidWord = (
-  word: string,
-  wordBank: Set<string>,
-  previousGuesses: string[]
-): boolean => {
-  if (word.length !== 5) return false;
-  if (previousGuesses.some((v) => v === word)) {
-    alert("you've already guessed this word!");
-    return false;
-  }
-  if (!wordBank.has(word)) {
-    alert("not a valid word!");
-    return false;
-  }
-  return true;
-};

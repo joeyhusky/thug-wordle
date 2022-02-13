@@ -5,6 +5,14 @@ export function getRandomWord() {
   return wordbank.valid[randomIndex];
 }
 
+export const isValidWord = (word: string): boolean => {
+  if (word.length !== 5) return false;
+  if (wordbank.valid.concat(wordbank.invalid).includes(word)) {
+    return true;
+  }
+  return false;
+};
+
 export type WordGuess = {
   word: string;
   result: LetterState[];
