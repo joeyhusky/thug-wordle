@@ -44,6 +44,11 @@ export const useStore = create<StateStore>(
       },
       enterPressed: () => {
         const state = get();
+        if (state.isGameOver) {
+          state.newGame();
+          return;
+        }
+
         if (!isValidWord(state.currentGuess)) {
           return;
         }
