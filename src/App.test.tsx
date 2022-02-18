@@ -13,7 +13,7 @@ describe("Simple working test", () => {
     useStore.setState({ userGuesses: [] });
     render(<App />);
     expect(screen.queryByText("Game Over")).toBeNull();
-    expect(document.querySelectorAll("main > div")).toHaveLength(2);
+    expect(document.querySelectorAll("main > div")).toHaveLength(6);
   });
 
   it("shows empty rows in empty state", () => {
@@ -21,10 +21,10 @@ describe("Simple working test", () => {
       userGuesses: [],
     });
     render(<App />);
-    const [grid] = document.querySelectorAll("main > div");
+    const [grid] = document.querySelectorAll("main");
     expect(grid).toBeDefined();
     expect(grid.querySelectorAll("div")).toHaveLength(6);
-    const letters = document.querySelectorAll("main > div > div > span");
+    const letters = document.querySelectorAll("main > div > span");
     expect(letters.length).toBe(30);
 
     letters.forEach((l) => {
@@ -45,10 +45,10 @@ describe("Simple working test", () => {
       ],
     });
     render(<App />);
-    const [grid] = document.querySelectorAll("main > div");
+    const [grid] = document.querySelectorAll("main");
     expect(grid).toBeDefined();
     expect(grid.querySelectorAll("div")).toHaveLength(6);
-    const letters = document.querySelectorAll("main > div > div > span");
+    const letters = document.querySelectorAll("main > div > span");
     expect(letters.length).toBe(30);
 
     letters.forEach((l, idx) => {
@@ -58,7 +58,7 @@ describe("Simple working test", () => {
 
   it("shows keyboard", () => {
     render(<App />);
-    const [, keyboard] = document.querySelectorAll("main > div");
+    const [keyboard] = document.querySelectorAll("#keyboard");
     expect(keyboard).toBeDefined();
     expect(keyboard.querySelectorAll("div")).toHaveLength(3);
   });

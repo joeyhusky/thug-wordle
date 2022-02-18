@@ -8,7 +8,7 @@ export const Keyboard: React.FC = () => {
   const keyboardLetterState = useStore((store) => store.keyboardLetterState);
 
   return (
-    <div className={"flex flex-col"}>
+    <div className={"flex flex-col"} id="keyboard">
       {keyboardKeys.map((keyboardRow, rowIdx) => (
         <div key={rowIdx} className={"my-2 flex justify-center space-x-1"}>
           {keyboardRow.map((letter, idx) => {

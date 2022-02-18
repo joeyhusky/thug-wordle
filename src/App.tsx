@@ -30,12 +30,12 @@ export default function App() {
     ));
   };
 
-  const maybeRenderNewGameButton = () => {
+  const maybeRenderGameOverModal = () => {
     return (
       isGameOver && (
         <div
           role="modal"
-          className="absolute bg-slate-100 border border-gray-400 left-0 right-0 rounded text-center w-1/3 h-1/3 p-6 mx-auto top-1/4 grid grid-rows-3"
+          className="absolute bg-slate-100 border border-gray-400 rounded text-center w-11/12 h-1/2 p-6 left-0 right-0 mx-auto top-1/4 grid grid-rows-3"
         >
           <b className="text-2xl">{hasWon ? "Nice job sir" : "Game Over"}</b>
           <WordRow letters={answer} className="items-center" />
@@ -51,15 +51,13 @@ export default function App() {
   };
 
   return (
-    <div className="mx-auto w-96">
+    <div className="mx-auto w-96 relative h-screen">
       <header className="border-b border-gray-500 pb-2 my-2">
         <h1 className="text-4xl text-center">Thug-Wordle</h1>
       </header>
-      <main>
-        <div className="grid grid-rows-6 gap-4 my-4">{renderRows()}</div>
-        <Keyboard />
-        {maybeRenderNewGameButton()}
-      </main>
+      <main className="grid grid-rows-6 gap-4 my-4">{renderRows()}</main>
+      <Keyboard />
+      {maybeRenderGameOverModal()}
     </div>
   );
 }
