@@ -7,9 +7,14 @@ module.exports = {
           "0%, 100%": { transform: "translateX(-4px)" },
           "50%": { transform: "translateX(4px)" },
         },
+        breathe: {
+          "0%, 100%": { transform: "scale(1)" },
+          "50%": { transform: "scale(1.1)" },
+        },
       },
       animation: {
         wiggle: "wiggle .2s ease infinite",
+        breathe: "breathe 1s ease infinite",
       },
     },
   },
