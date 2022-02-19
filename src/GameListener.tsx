@@ -22,11 +22,12 @@ const useEventListener = (
 };
 
 const useGameListener = () => {
-  const [showInvalidGuess, setInvalidGuess] = useState(false);
+  const showInvalidGuess = useStore((store) => store.showInvalidGuess);
+  const setShowInvalidGuess = useStore((store) => store.setShowInvalidGuess);
   useEffect(() => {
     let id: NodeJS.Timeout;
     if (showInvalidGuess) {
-      id = setTimeout(() => setInvalidGuess(false), 1000);
+      id = setTimeout(() => setShowInvalidGuess(false), 1000);
     }
     return () => clearTimeout(id);
   }, [showInvalidGuess]);
@@ -44,7 +45,7 @@ const useGameListener = () => {
     } else if (event.key === "Delete" || event.key === "Backspace") {
       removeLetter();
     } else if (event.key === "Enter") {
-      setInvalidGuess(enterPressed());
+      setShowInvalidGuess(enterPressed());
     }
   };
   useEventListener("keydown", keyDownListener);

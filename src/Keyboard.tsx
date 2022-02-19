@@ -7,6 +7,8 @@ export const Keyboard: React.FC = () => {
   const enterPressed = useStore((store) => store.enterPressed);
   const keyboardLetterState = useStore((store) => store.keyboardLetterState);
 
+  const setShowInvalidGuess = useStore((store) => store.setShowInvalidGuess);
+
   return (
     <div className={"flex flex-col"} id="keyboard">
       {keyboardKeys.map((keyboardRow, rowIdx) => (
@@ -16,7 +18,8 @@ export const Keyboard: React.FC = () => {
             let keypressCallback = () => keyPressed(letter);
             if (letter === "Backspace")
               keypressCallback = () => backspacePressed();
-            if (letter === "Enter") keypressCallback = () => enterPressed();
+            if (letter === "Enter")
+              keypressCallback = () => setShowInvalidGuess(enterPressed());
             let letterState = ColorTailwindHelper[keyboardLetterState[letter]];
 
             if (letterState) {

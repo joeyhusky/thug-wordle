@@ -16,7 +16,9 @@ interface StateStore {
   isGameOver: boolean;
   hasWon: boolean;
   keyboardLetterState: Record<string, LetterState>;
+  showInvalidGuess: boolean;
 
+  setShowInvalidGuess: (show: boolean) => void;
   newGame: () => void;
   letterPressed: (guess: string) => void;
   enterPressed: () => boolean;
@@ -32,6 +34,10 @@ export const useStore = create<StateStore>(
       isGameOver: false,
       hasWon: false,
       keyboardLetterState: {},
+      showInvalidGuess: false,
+      setShowInvalidGuess: (shouldShow: boolean) => {
+        set((_) => ({ showInvalidGuess: shouldShow }));
+      },
       newGame: () => {
         set((_) => ({
           isGameOver: false,

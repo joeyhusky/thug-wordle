@@ -4,12 +4,12 @@ module.exports = {
     extend: {
       keyframes: {
         wiggle: {
-          "0%, 100%": { transform: "translateY(-4px)" },
-          "50%": { transform: "translateY(4px)" },
+          "0%, 100%": { transform: "translateX(-4px)" },
+          "50%": { transform: "translateX(4px)" },
         },
       },
       animation: {
-        wiggle: "wiggle 1.5s ease infinite",
+        wiggle: "wiggle .2s ease infinite",
       },
     },
   },
