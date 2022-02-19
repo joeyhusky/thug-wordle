@@ -19,7 +19,7 @@ interface StateStore {
 
   newGame: () => void;
   letterPressed: (guess: string) => void;
-  enterPressed: () => void;
+  enterPressed: () => boolean;
   backspacePressed: () => void;
 }
 
@@ -46,11 +46,11 @@ export const useStore = create<StateStore>(
         const state = get();
         if (state.isGameOver) {
           state.newGame();
-          return;
+          return false;
         }
 
         if (!isValidWord(state.currentGuess)) {
-          return;
+          return true;
         }
         if (state.answer === state.currentGuess) {
           set(() => ({ isGameOver: true, hasWon: true }));
@@ -86,6 +86,7 @@ export const useStore = create<StateStore>(
           },
           currentGuess: "",
         }));
+        return false;
       },
       letterPressed: (letter: string) => {
         if (letter.length !== 1 || get().currentGuess.length === 5) {

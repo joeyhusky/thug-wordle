@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import useGameListener from "./GameListener";
 import { Keyboard } from "./Keyboard";
 import { useStore } from "./StateStore";
@@ -7,7 +8,7 @@ import { WordRow } from "./WordRow";
 export const NUMBER_OF_GUESSES = 6;
 
 export default function App() {
-  useGameListener();
+  const showInvalidGuess = useGameListener();
   const currentGuess: string = useStore((store) => store.currentGuess);
   const existingGuesses: WordGuess[] = useStore((store) => store.userGuesses);
   const hasWon = useStore((store) => store.hasWon);
@@ -26,7 +27,16 @@ export default function App() {
 
   const renderRows = () => {
     return rows.map((guess, idx) => (
-      <WordRow key={idx} letters={guess.word} wordGuess={guess.result} />
+      <WordRow
+        key={idx}
+        letters={guess.word}
+        wordGuess={guess.result}
+        className={
+          showInvalidGuess && idx === existingGuesses.length
+            ? "animate-wiggle"
+            : ""
+        }
+      />
     ));
   };
 

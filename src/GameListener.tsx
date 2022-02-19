@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useStore } from "./StateStore";
 
 const useEventListener = (
@@ -22,6 +22,15 @@ const useEventListener = (
 };
 
 const useGameListener = () => {
+  const [showInvalidGuess, setInvalidGuess] = useState(false);
+  useEffect(() => {
+    let id: NodeJS.Timeout;
+    if (showInvalidGuess) {
+      id = setTimeout(() => setInvalidGuess(false), 1000);
+    }
+    return () => clearTimeout(id);
+  }, [showInvalidGuess]);
+
   const guessLetter = useStore((store) => store.letterPressed);
   const removeLetter = useStore((store) => store.backspacePressed);
   const enterPressed = useStore((store) => store.enterPressed);
@@ -35,10 +44,11 @@ const useGameListener = () => {
     } else if (event.key === "Delete" || event.key === "Backspace") {
       removeLetter();
     } else if (event.key === "Enter") {
-      enterPressed();
+      setInvalidGuess(enterPressed());
     }
   };
   useEventListener("keydown", keyDownListener);
+  return showInvalidGuess;
 };
 
 export default useGameListener;
