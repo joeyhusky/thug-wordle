@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import useGameListener from "./GameListener";
 import { Keyboard } from "./Keyboard";
 import { useStore } from "./StateStore";
@@ -6,8 +6,13 @@ import { WordGuess } from "./word-utils";
 import { WordRow } from "./WordRow";
 
 export const NUMBER_OF_GUESSES = 6;
+export const TITLE = "Norberdle";
+const SUBTITLE = "a wordle clone";
 
 export default function App() {
+  //@ts-ignore
+  useEffect(() => (document.title = TITLE), []);
+
   const showInvalidGuess = useGameListener();
   const currentGuess: string = useStore((store) => store.currentGuess);
   const existingGuesses: WordGuess[] = useStore((store) => store.userGuesses);
@@ -45,10 +50,14 @@ export default function App() {
       isGameOver && (
         <div
           role="modal"
-          className="absolute bg-slate-100 border border-gray-400 rounded text-center w-11/12 h-1/2 p-6 left-0 right-0 mx-auto top-1/4 grid grid-rows-3"
+          className="absolute shadow-xl bg-slate-100 border border-gray-400 rounded text-center w-11/12 h-1/2 p-6 left-0 right-0 mx-auto top-1/4 grid grid-rows-3"
         >
           <b className="text-2xl">{hasWon ? "Nice job sir" : "Game Over"}</b>
-          <WordRow letters={answer} className="items-center" />
+          <WordRow
+            letters={answer}
+            shouldBreathe={false}
+            className="items-center"
+          />
           <button
             className="border border-green-500 mx-4 bg-green-500 rounded mt-4 shadow"
             onClick={newGame}
@@ -61,9 +70,10 @@ export default function App() {
   };
 
   return (
-    <div className="mx-auto w-96 relative h-screen">
+    <div className="mx-auto relative w-96  h-screen">
       <header className="border-b border-gray-500 pb-2 my-2">
-        <h1 className="text-4xl text-center">Thug-Wordle</h1>
+        <h1 className="text-4xl text-center">{TITLE}</h1>
+        <h2 className="text-sm text-center">{SUBTITLE}</h2>
       </header>
       <main className="grid grid-rows-6 gap-4 my-4">{renderRows()}</main>
       <Keyboard />

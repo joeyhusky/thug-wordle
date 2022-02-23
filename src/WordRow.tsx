@@ -8,12 +8,14 @@ interface WordRowProps {
   letters: string | undefined;
   wordGuess?: LetterState[];
   className?: string;
+  shouldBreathe?: boolean;
 }
 
 export const WordRow: React.FC<WordRowProps> = ({
   letters = "",
   wordGuess,
   className = "",
+  shouldBreathe = true,
 }: WordRowProps) => {
   const lettersRemaining = LETTER_LENGTH - letters.length;
   const currentWord = letters
@@ -23,7 +25,14 @@ export const WordRow: React.FC<WordRowProps> = ({
     <div className={`grid grid-cols-5 gap-4 ${className}`}>
       {currentWord.map((char, idx) => {
         const guess = wordGuess?.[idx];
-        return <CharacterBox letter={char} guess={guess} key={idx} />;
+        return (
+          <CharacterBox
+            letter={char}
+            guess={guess}
+            shouldBreathe={shouldBreathe}
+            key={idx}
+          />
+        );
       })}
     </div>
   );
@@ -32,6 +41,7 @@ export const WordRow: React.FC<WordRowProps> = ({
 interface CharacterBoxProps {
   guess?: LetterState;
   letter: string;
+  shouldBreathe?: boolean;
 }
 
 const CharacterBox = (props: CharacterBoxProps) => {
@@ -54,7 +64,7 @@ const CharacterBox = (props: CharacterBoxProps) => {
       ? `${ColorTailwindHelper[props.guess]}`
       : "border-gray-200 bg-white";
 
-  if (animate) backgroundStyle += " animate-breathe";
+  if (animate && props.shouldBreathe) backgroundStyle += " animate-breathe";
   return (
     <span
       key={props.letter}

@@ -15,7 +15,7 @@ export const Keyboard: React.FC = () => {
         <div key={rowIdx} className={"my-2 flex justify-center space-x-1"}>
           {keyboardRow.map((letter, idx) => {
             let styles =
-              "rounded font-bold uppercase flex-1 py-2 hover:animate-breathe ";
+              "transition ease-in-out hover:scale-110 rounded font-bold uppercase flex-1 py-2 ";
             let keypressCallback = () => keyPressed(letter);
             if (letter === "Backspace")
               keypressCallback = () => backspacePressed();
@@ -62,7 +62,7 @@ const keyboardKeys = [
 const backspace = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    className="h-6 w-6 inline-block m-auto"
+    className="h-6 w-6 m-auto"
     fill="none"
     viewBox="0 0 24 24"
     stroke="currentColor"
