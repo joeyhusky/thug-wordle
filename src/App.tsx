@@ -10,9 +10,6 @@ export const TITLE = "Norberdle";
 const SUBTITLE = "a wordle clone";
 
 export default function App() {
-  //@ts-ignore
-  useEffect(() => (document.title = TITLE), []);
-
   const showInvalidGuess = useGameListener();
   const currentGuess: string = useStore((store) => store.currentGuess);
   const existingGuesses: WordGuess[] = useStore((store) => store.userGuesses);
