@@ -65,13 +65,3 @@ describe("Simple working test", () => {
     expect(keyboard.querySelectorAll("div")).toHaveLength(3);
   });
 });
-
-describe("TimestampListener", () => {
-  const guess = "rocks";
-  useStore.setState({
-    timestamp: 123456,
-    userGuesses: [{ word: guess, result: Array(5).fill(0) }],
-  });
-  render(<App />);
-  expect(useStore.getState().userGuesses).toEqual([]);
-});

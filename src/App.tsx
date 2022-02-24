@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import useGameListener from "./GameListener";
 import { Keyboard } from "./Keyboard";
 import { useStore } from "./StateStore";
