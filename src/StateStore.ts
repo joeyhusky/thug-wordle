@@ -10,6 +10,7 @@ import {
 import { NUMBER_OF_GUESSES } from "./App";
 
 interface StateStore {
+  timestamp: number;
   currentGuess: string;
   answer: string;
   userGuesses: WordGuess[];
@@ -28,6 +29,7 @@ interface StateStore {
 export const useStore = create<StateStore>(
   persist(
     (set, get) => ({
+      timestamp: Date.now(),
       currentGuess: "",
       answer: getRandomWord(),
       userGuesses: [],

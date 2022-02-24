@@ -6,7 +6,9 @@ import { render, screen } from "./test/test-utils";
 describe("Simple working test", () => {
   it("renders the title", () => {
     render(<App />);
-    expect(screen.getByText(/Thug-Wordle/i)).toBeInTheDocument();
+    expect(
+      document.querySelectorAll("div > header > h1")[0].textContent
+    ).toEqual("Norberdle");
   });
 
   it("shows empty state", () => {
@@ -33,6 +35,7 @@ describe("Simple working test", () => {
   });
 
   it("shows correct characters with populated state", () => {
+    render(<App />);
     const guess = "rocks";
     useStore.setState({
       userGuesses: [
@@ -44,7 +47,6 @@ describe("Simple working test", () => {
         { word: guess, result: Array(5).fill(0) },
       ],
     });
-    render(<App />);
     const [grid] = document.querySelectorAll("main");
     expect(grid).toBeDefined();
     expect(grid.querySelectorAll("div")).toHaveLength(6);
@@ -62,4 +64,14 @@ describe("Simple working test", () => {
     expect(keyboard).toBeDefined();
     expect(keyboard.querySelectorAll("div")).toHaveLength(3);
   });
+});
+
+describe("TimestampListener", () => {
+  const guess = "rocks";
+  useStore.setState({
+    timestamp: 123456,
+    userGuesses: [{ word: guess, result: Array(5).fill(0) }],
+  });
+  render(<App />);
+  expect(useStore.getState().userGuesses).toEqual([]);
 });

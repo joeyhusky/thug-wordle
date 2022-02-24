@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import useGameListener from "./GameListener";
 import { Keyboard } from "./Keyboard";
 import { useStore } from "./StateStore";
+import { useTimestampListener } from "./TimestampListener";
 import { WordGuess } from "./word-utils";
 import { WordRow } from "./WordRow";
 
@@ -10,6 +11,7 @@ export const TITLE = "Norberdle";
 const SUBTITLE = "a wordle clone";
 
 export default function App() {
+  useTimestampListener();
   const showInvalidGuess = useGameListener();
   const currentGuess: string = useStore((store) => store.currentGuess);
   const existingGuesses: WordGuess[] = useStore((store) => store.userGuesses);
