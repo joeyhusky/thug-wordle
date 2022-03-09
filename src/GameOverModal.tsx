@@ -1,19 +1,22 @@
 import { useStore } from "./StateStore";
 import { WordRow } from "./WordRow";
+import norb from "./public/norb.jpg";
 
-interface GameOverModalProps {
-  answer: string;
-  hasWon: boolean;
-}
-
-const GameOverModal: React.FC<GameOverModalProps> = ({ answer, hasWon }) => {
+const GameOverModal: React.FC = () => {
   const newGame = useStore((state) => state.newGame);
+  const answer = useStore((state) => state.answer);
+  const hasWon = useStore((state) => state.hasWon);
   return (
     <div
       role="modal"
-      className="absolute shadow-xl bg-slate-100 border border-gray-400 rounded text-center w-11/12 h-1/2 p-6 left-0 right-0 mx-auto top-1/4 grid grid-rows-3"
+      className="absolute shadow-xl bg-slate-100 border border-gray-400 rounded text-center w-11/12 h-3/4 p-6 left-0 right-0 mx-auto top-24 grid grid-rows-6"
     >
-      <b className="text-2xl">{hasWon ? "Nice job sir" : "Game Over"}</b>
+      <b className="text-4xl">
+        {hasWon ? "Nice Work Norberdler!" : "Game Over"}
+      </b>
+      <img src={norb} />
+      <span />
+      <span />
       <WordRow
         letters={answer}
         shouldBreathe={false}

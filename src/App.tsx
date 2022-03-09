@@ -15,10 +15,7 @@ export default function App() {
   const showInvalidGuess = useGameListener();
   const currentGuess: string = useStore((store) => store.currentGuess);
   const existingGuesses: WordGuess[] = useStore((store) => store.userGuesses);
-  const hasWon = useStore((store) => store.hasWon);
   const isGameOver = useStore((store) => store.isGameOver);
-  const answer = useStore((store) => store.answer);
-  const newGame = useStore((store) => store.newGame);
 
   let rows: Partial<WordGuess>[] = [...existingGuesses];
   if (rows.length < NUMBER_OF_GUESSES) {
@@ -45,7 +42,7 @@ export default function App() {
   };
 
   const maybeRenderGameOverModal = () => {
-    return isGameOver && <GameOverModal answer={answer} hasWon={hasWon} />;
+    return isGameOver && <GameOverModal />;
   };
 
   return (
