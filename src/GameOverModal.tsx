@@ -2,6 +2,13 @@ import { useStore } from "./StateStore";
 import { WordRow } from "./WordRow";
 import norb from "./public/norb.jpg";
 
+let preloadedImg;
+function preloadImages() {
+  preloadedImg = new Image();
+  preloadedImg.src = norb;
+}
+preloadImages();
+
 const GameOverModal: React.FC = () => {
   const newGame = useStore((state) => state.newGame);
   const answer = useStore((state) => state.answer);
