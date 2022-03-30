@@ -1,11 +1,7 @@
 import create, { GetState, SetState } from "zustand";
 import { persist } from "zustand/middleware";
-import { createGameStore, GameStore } from "./StateStoreTypes";
-import {
-  createUserStatsStore,
-  UserStatsStore,
-} from "./UserStatistics/UserStatsStore";
-import { devtools } from "zustand/middleware";
+import { createGameStore, GameStore } from "./store/GameStore";
+import { createUserStatsStore, UserStatsStore } from "./store/UserStatsStore";
 
 const createRootSlice = (
   set: SetState<RootState>,

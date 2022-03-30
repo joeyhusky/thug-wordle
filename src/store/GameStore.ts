@@ -1,13 +1,13 @@
 import { GetState, SetState } from "zustand";
-import { NUMBER_OF_GUESSES } from "./App";
-import { RootState } from "./StateStore";
+import { NUMBER_OF_GUESSES } from "../App";
+import { RootState } from "../StateStore";
 import {
   computeGuess,
   getRandomWord,
   isValidWord,
   LetterState,
   WordGuess,
-} from "./word-utils";
+} from "../word-utils";
 
 export interface GameStore {
   timestamp: number;
@@ -54,7 +54,6 @@ export const createGameStore = (
   enterPressed: () => {
     const state = get();
     if (state.isGameOver) {
-      state.updateUserStats();
       state.newGame();
       return false;
     }
@@ -64,8 +63,10 @@ export const createGameStore = (
     }
     if (state.answer === state.currentGuess) {
       set(() => ({ isGameOver: true, hasWon: true }));
+      state.updateUserStats();
     } else if (state.userGuesses.length === NUMBER_OF_GUESSES - 1) {
       set(() => ({ isGameOver: true, hasWon: false }));
+      state.updateUserStats();
     }
     const keyboardLetterState = state.keyboardLetterState;
     const guess = computeGuess(state.currentGuess, state.answer);

@@ -1,8 +1,10 @@
+import { useState } from "react";
 import useGameListener from "./GameListener";
 import GameOverModal from "./GameOverModal";
 import { Keyboard } from "./Keyboard";
 import { useStore } from "./StateStore";
 import { useTimestampListener } from "./TimestampListener";
+import UserStatsModalDialog from "./UserStatistics/UserStatsModalDialog";
 import { WordGuess } from "./word-utils";
 import { WordRow } from "./WordRow";
 
@@ -16,6 +18,8 @@ export default function App() {
   const currentGuess: string = useStore((store) => store.currentGuess);
   const existingGuesses: WordGuess[] = useStore((store) => store.userGuesses);
   const isGameOver = useStore((store) => store.isGameOver);
+
+  const [showStats, setShowStats] = useState(false);
 
   let rows: Partial<WordGuess>[] = [...existingGuesses];
   if (rows.length < NUMBER_OF_GUESSES) {
@@ -41,19 +45,22 @@ export default function App() {
     ));
   };
 
-  const maybeRenderGameOverModal = () => {
-    return isGameOver && <GameOverModal />;
-  };
-
   return (
     <div className="mx-auto relative w-96  h-screen">
       <header className="border-b border-gray-500 pb-2 my-2">
         <h1 className="text-4xl text-center">{TITLE}</h1>
         <h2 className="text-sm text-center">{SUBTITLE}</h2>
+        <button
+          className="absolute right-0 top-1 text-xs text-gray-500 hover:text-gray-700"
+          onClick={() => setShowStats(true)}
+        >
+          Stats
+        </button>
       </header>
       <main className="grid grid-rows-6 gap-4 my-4">{renderRows()}</main>
       <Keyboard />
-      {maybeRenderGameOverModal()}
+      {showStats && <UserStatsModalDialog close={() => setShowStats(false)} />}
+      {isGameOver && <GameOverModal />}
     </div>
   );
 }
