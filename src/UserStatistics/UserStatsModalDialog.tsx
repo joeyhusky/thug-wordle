@@ -16,7 +16,7 @@ function UserStatsModalDialog(props: UserStatsModalProps): JSX.Element {
       </ul>
       <button
         onClick={() => props.close()}
-        className="border-solid border-2 border-gray-400 mx-4 bg-gray-200 rounded w-11/12 h-14 mt-4 shadow"
+        className="bg-blue-500 hover:bg-blue-700 text-white py-1 px-1 border border-blue-700 rounded mx-4 w-11/12 h-14 mt-4"
       >
         Close
       </button>
@@ -25,3 +25,5 @@ function UserStatsModalDialog(props: UserStatsModalProps): JSX.Element {
 }
 
 export default UserStatsModalDialog;
+
+// bg-blue-500 hover:bg-blue-700 text-white py-1 px-1 border border-blue-700 rounded

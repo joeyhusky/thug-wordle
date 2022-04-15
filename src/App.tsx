@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { StatsButton } from "./components/StatsButton";
 import useGameListener from "./GameListener";
 import GameOverModal from "./GameOverModal";
 import { Keyboard } from "./Keyboard";
@@ -50,12 +51,7 @@ export default function App() {
       <header className="border-b border-gray-500 pb-2 my-2">
         <h1 className="text-4xl text-center">{TITLE}</h1>
         <h2 className="text-sm text-center">{SUBTITLE}</h2>
-        <button
-          className="absolute right-0 top-1 text-xs text-gray-500 hover:text-gray-700"
-          onClick={() => setShowStats(true)}
-        >
-          Stats
-        </button>
+        <StatsButton setShowStats={setShowStats} />
       </header>
       <main className="grid grid-rows-6 gap-4 my-4">{renderRows()}</main>
       <Keyboard />
