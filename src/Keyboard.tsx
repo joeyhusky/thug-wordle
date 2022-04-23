@@ -1,5 +1,7 @@
 import { ColorTailwindHelper } from "./Color";
 import { useStore } from "./StateStore";
+import { HiOutlineBackspace } from "react-icons/hi";
+import { CgCornerDownLeft } from "react-icons/cg";
 
 export const Keyboard: React.FC = () => {
   const keyPressed = useStore((store) => store.letterPressed);
@@ -9,13 +11,18 @@ export const Keyboard: React.FC = () => {
 
   const setShowInvalidGuess = useStore((store) => store.setShowInvalidGuess);
 
+  const keyboardButtonElements: { [key: string]: JSX.Element } = {
+    ["Backspace"]: <HiOutlineBackspace className="h-6 w-6 mx-auto" />,
+    ["Enter"]: <CgCornerDownLeft className="h-6 w-6 mx-auto" />,
+  };
+
   return (
     <div className={"flex flex-col"} id="keyboard">
       {keyboardKeys.map((keyboardRow, rowIdx) => (
         <div key={rowIdx} className={"my-2 flex justify-center space-x-1"}>
           {keyboardRow.map((letter, idx) => {
             let styles =
-              "transition ease-in-out hover:scale-110 rounded font-bold uppercase flex-1 py-2 ";
+              "transition ease-in-out hover:scale-110 rounded font-bold uppercase flex-1 py-2 antialiased ";
             let keypressCallback = () => keyPressed(letter);
             if (letter === "Backspace")
               keypressCallback = () => backspacePressed();
@@ -29,21 +36,13 @@ export const Keyboard: React.FC = () => {
               styles += " bg-gray-300";
             }
 
-            return letter === "Backspace" ? (
+            return (
               <button
                 key={letter + idx}
                 className={styles}
                 onClick={keypressCallback}
               >
-                {backspace}
-              </button>
-            ) : (
-              <button
-                key={letter + idx}
-                className={styles}
-                onClick={keypressCallback}
-              >
-                {letter === "Backspace" ? backspace : letter}
+                {keyboardButtonElements[letter] ?? letter}
               </button>
             );
           })}
@@ -58,20 +57,3 @@ const keyboardKeys = [
   ["", "a", "s", "d", "f", "g", "h", "j", "k", "l", ""],
   ["Enter", "z", "x", "c", "v", "b", "n", "m", "Backspace"],
 ];
-
-const backspace = (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="h-6 w-6 m-auto"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="1.5"
-      d="M12 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M3 12l6.414 6.414a2 2 0 001.414.586H19a2 2 0 002-2V7a2 2 0 00-2-2h-8.172a2 2 0 00-1.414.586L3 12z"
-    ></path>
-  </svg>
-);

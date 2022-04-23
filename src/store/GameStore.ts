@@ -43,6 +43,7 @@ export const createGameStore = (
   },
   newGame: () => {
     set((_) => ({
+      timestamp: Date.now(),
       isGameOver: false,
       userGuesses: [],
       answer: getRandomWord(),

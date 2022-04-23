@@ -1,4 +1,5 @@
 import { useStore } from "../StateStore";
+import { IoStatsChart } from "react-icons/io5";
 
 export function StatsButton(props: {
   setShowStats: (show: boolean) => void;
@@ -14,7 +15,7 @@ export function StatsButton(props: {
       disabled={isGameOver}
       onClick={() => props.setShowStats(true)}
     >
-      Stats
+      <IoStatsChart className="h-4 w-4 mx-auto" />
     </button>
   );
 }
