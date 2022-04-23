@@ -25,5 +25,3 @@ function UserStatsModalDialog(props: UserStatsModalProps): JSX.Element {
 }
 
 export default UserStatsModalDialog;
-
-// bg-blue-500 hover:bg-blue-700 text-white py-1 px-1 border border-blue-700 rounded

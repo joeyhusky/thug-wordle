@@ -1,7 +1,6 @@
 import { ColorTailwindHelper } from "./Color";
 import { useStore } from "./StateStore";
-import { HiOutlineBackspace } from "react-icons/hi";
-import { CgCornerDownLeft } from "react-icons/cg";
+import { HiOutlineBackspace as BackspaceIcon } from "react-icons/hi";
 
 export const Keyboard: React.FC = () => {
   const keyPressed = useStore((store) => store.letterPressed);
@@ -12,8 +11,8 @@ export const Keyboard: React.FC = () => {
   const setShowInvalidGuess = useStore((store) => store.setShowInvalidGuess);
 
   const keyboardButtonElements: { [key: string]: JSX.Element } = {
-    ["Backspace"]: <HiOutlineBackspace className="h-6 w-6 mx-auto" />,
-    ["Enter"]: <CgCornerDownLeft className="h-6 w-6 mx-auto" />,
+    ["Backspace"]: <BackspaceIcon className="h-6 w-6 mx-auto" />,
+    ["Enter"]: <div className="px-2">Enter</div>,
   };
 
   return (
