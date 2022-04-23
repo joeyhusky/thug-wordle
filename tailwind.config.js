@@ -14,7 +14,7 @@ module.exports = {
       },
       animation: {
         wiggle: "wiggle .2s ease infinite",
-        breathe: "breathe 1s ease infinite",
+        breathe: "breathe .2s ease infinite",
       },
     },
   },

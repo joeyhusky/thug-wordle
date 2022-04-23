@@ -49,7 +49,7 @@ const CharacterBox = (props: CharacterBoxProps) => {
   useEffect(() => {
     let id: NodeJS.Timeout;
     if (animate) {
-      id = setTimeout(() => shouldAnimate(false), 1000);
+      id = setTimeout(() => shouldAnimate(false), 200);
     }
     return () => clearTimeout(id);
   }, [animate]);
