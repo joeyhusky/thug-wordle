@@ -27,12 +27,14 @@ export const Keyboard: React.FC = () => {
               keypressCallback = () => backspacePressed();
             if (letter === "Enter")
               keypressCallback = () => setShowInvalidGuess(enterPressed());
-            let letterState = ColorTailwindHelper[keyboardLetterState[letter]];
+            let letterBackground =
+              ColorTailwindHelper[keyboardLetterState[letter]] ??
+              " bg-gray-300";
 
-            if (letterState) {
-              styles += letterState;
-            } else if (letter !== "") {
-              styles += " bg-gray-300";
+            styles += letterBackground;
+
+            if (letter === "") {
+              return <div key={idx} className="w-4" />;
             }
 
             return (
