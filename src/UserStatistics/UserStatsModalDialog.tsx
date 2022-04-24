@@ -1,4 +1,3 @@
-import Modal from "../components/Modal";
 import { useUserStats } from "../store/UserStatsStore";
 
 type UserStatsModalProps = { close: () => void };
@@ -7,7 +6,10 @@ function UserStatsModalDialog(props: UserStatsModalProps): JSX.Element {
   const stats = useUserStats();
 
   return (
-    <Modal>
+    <div
+      role="modal"
+      className="absolute shadow-xl bg-slate-100 border border-gray-400 rounded text-center flex flex-col space-y-6 w-11/12 p-6 left-0 right-0 mx-auto top-24"
+    >
       <ul>
         <li>{`Total games: ${stats.total_games}`}</li>
         <li>{`Wins: ${stats.total_wins}`}</li>
@@ -20,7 +22,7 @@ function UserStatsModalDialog(props: UserStatsModalProps): JSX.Element {
       >
         Close
       </button>
-    </Modal>
+    </div>
   );
 }
 

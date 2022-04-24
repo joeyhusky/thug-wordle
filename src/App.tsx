@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { StatsButton } from "./components/StatsButton";
 import useGameListener from "./GameListener";
-import GameOverModal from "./GameOverModal";
-import { Keyboard } from "./Keyboard";
+import GameOverModal from "./components/GameOverModal";
+import { Keyboard } from "./components/Keyboard";
 import { useStore } from "./StateStore";
 import { useTimestampListener } from "./TimestampListener";
 import UserStatsModalDialog from "./UserStatistics/UserStatsModalDialog";

@@ -1,5 +1,5 @@
-import { ColorTailwindHelper } from "./Color";
-import { useStore } from "./StateStore";
+import { ColorTailwindHelper } from "../Color";
+import { useStore } from "../StateStore";
 import { HiOutlineBackspace as BackspaceIcon } from "react-icons/hi";
 
 export const Keyboard: React.FC = () => {
