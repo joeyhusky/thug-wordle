@@ -47,7 +47,7 @@ export default function App() {
   };
 
   return (
-    <div className="mx-auto relative w-96">
+    <div className="mx-auto relative w-96 px-2 lg:px-0">
       <header className="border-b border-gray-500 pb-2 my-2">
         <h1 className="text-4xl text-center">{TITLE}</h1>
         <h2 className="text-sm text-center">{SUBTITLE}</h2>
