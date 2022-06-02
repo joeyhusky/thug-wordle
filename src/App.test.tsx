@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import App from "./App";
 import { useStore } from "./StateStore";
-import { render, screen } from "./test/test-utils";
+import { act, render, screen } from "./test/test-utils";
 
 describe("Simple working test", () => {
   it("renders the title", () => {
@@ -37,16 +37,19 @@ describe("Simple working test", () => {
   it("shows correct characters with populated state", () => {
     render(<App />);
     const guess = "rocks";
-    useStore.setState({
-      userGuesses: [
-        { word: guess, result: Array(5).fill(0) },
-        { word: guess, result: Array(5).fill(0) },
-        { word: guess, result: Array(5).fill(0) },
-        { word: guess, result: Array(5).fill(0) },
-        { word: guess, result: Array(5).fill(0) },
-        { word: guess, result: Array(5).fill(0) },
-      ],
+    act(() => {
+      useStore.setState({
+        userGuesses: [
+          { word: guess, result: Array(5).fill(0) },
+          { word: guess, result: Array(5).fill(0) },
+          { word: guess, result: Array(5).fill(0) },
+          { word: guess, result: Array(5).fill(0) },
+          { word: guess, result: Array(5).fill(0) },
+          { word: guess, result: Array(5).fill(0) },
+        ],
+      });
     });
+
     const [grid] = document.querySelectorAll("main");
     expect(grid).toBeDefined();
     expect(grid.querySelectorAll("div")).toHaveLength(6);
@@ -62,6 +65,6 @@ describe("Simple working test", () => {
     render(<App />);
     const [keyboard] = document.querySelectorAll("#keyboard");
     expect(keyboard).toBeDefined();
-    expect(keyboard.querySelectorAll("div")).toHaveLength(3);
+    expect(keyboard.querySelectorAll("#keyboard-row")).toHaveLength(3);
   });
 });

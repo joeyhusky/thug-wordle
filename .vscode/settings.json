@@ -1,0 +1,6 @@
+{
+  "tailwindCSS.emmetCompletions": true,
+  "tailwindCSS.validate": true,
+
+  "css.validate": false
+}
