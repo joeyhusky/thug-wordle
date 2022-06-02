@@ -25,6 +25,7 @@
     "@vitest/ui": "^0.13.1",
     "autoprefixer": "^10.4.7",
     "c8": "^7.11.3",
+    "framer-motion": "^6.3.6",
     "jsdom": "^19.0.0",
     "postcss": "^8.4.14",
     "react-favicon": "^1.0.0",

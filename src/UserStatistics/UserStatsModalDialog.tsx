@@ -1,12 +1,19 @@
 import { useUserStats } from "../store/UserStatsStore";
+import { motion } from "framer-motion";
 
 type UserStatsModalProps = { close: () => void };
 
 function UserStatsModalDialog(props: UserStatsModalProps): JSX.Element {
   const stats = useUserStats();
-
   return (
-    <div
+    <motion.div
+      initial={{ scale: 0 }}
+      animate={{ scale: 1 }}
+      transition={{
+        type: "spring",
+        stiffness: 260,
+        damping: 20,
+      }}
       role="modal"
       className="absolute shadow-xl bg-slate-100 border border-gray-400 rounded text-center flex flex-col space-y-6 w-11/12 p-6 left-0 right-0 mx-auto top-24"
     >
@@ -22,7 +29,7 @@ function UserStatsModalDialog(props: UserStatsModalProps): JSX.Element {
       >
         Close
       </button>
-    </div>
+    </motion.div>
   );
 }
 
