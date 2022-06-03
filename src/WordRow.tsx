@@ -1,3 +1,4 @@
+import { motion, useAnimation } from "framer-motion";
 import { useEffect, useState } from "react";
 import { ColorTailwindHelper } from "./Color";
 import { LetterState } from "./word-utils";
@@ -45,32 +46,31 @@ interface CharacterBoxProps {
 }
 
 const CharacterBox = (props: CharacterBoxProps) => {
-  const [animate, shouldAnimate] = useState(false);
+  const controls = useAnimation();
   useEffect(() => {
-    let id: NodeJS.Timeout;
-    if (animate) {
-      id = setTimeout(() => shouldAnimate(false), 200);
-    }
-    return () => clearTimeout(id);
-  }, [animate]);
-  useEffect(() => {
-    if (props.letter != "") {
-      shouldAnimate(true);
+    if (props.letter) {
+      controls.start((i) => ({
+        scale: [1, 1.1, 1],
+        transition: {
+          type: "spring",
+          duration: 0.3,
+        },
+      }));
     }
   }, [props.letter]);
 
-  let backgroundStyle =
+  const backgroundStyle =
     props.guess != null
       ? `${ColorTailwindHelper[props.guess]}`
       : "border-gray-200 bg-white";
 
-  if (animate && props.shouldBreathe) backgroundStyle += " animate-breathe";
   return (
-    <span
+    <motion.span
+      animate={controls}
       key={props.letter}
       className={`border-2 border-gray-500 p-2 uppercase font-bold text-2xl text-center before:inline-block before:content-['_'] ${backgroundStyle} `}
     >
       {props.letter}
-    </span>
+    </motion.span>
   );
 };
