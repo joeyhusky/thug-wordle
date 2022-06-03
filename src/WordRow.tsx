@@ -1,5 +1,5 @@
 import { motion, useAnimation } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { ColorTailwindHelper } from "./Color";
 import { LetterState } from "./word-utils";
 
@@ -46,7 +46,14 @@ interface CharacterBoxProps {
 }
 
 const CharacterBox = (props: CharacterBoxProps) => {
+  const variants = {
+    hidden: { opacity: 0, y: "-1000vh" },
+    mounted: { opacity: 1, y: 0 },
+  };
   const controls = useAnimation();
+  // useEffect(() => {
+  //   controls.variants = variants;
+  // }, []);
   useEffect(() => {
     if (props.letter) {
       controls.start((i) => ({
@@ -64,13 +71,16 @@ const CharacterBox = (props: CharacterBoxProps) => {
       ? `${ColorTailwindHelper[props.guess]}`
       : "border-gray-200 bg-white";
 
-  return (
+  const letterBox = (
     <motion.span
-      animate={controls}
+      // animate={controls}
+      variants={variants}
       key={props.letter}
       className={`border-2 border-gray-500 p-2 uppercase font-bold text-2xl text-center before:inline-block before:content-['_'] ${backgroundStyle} `}
     >
       {props.letter}
     </motion.span>
   );
+
+  return letterBox;
 };
