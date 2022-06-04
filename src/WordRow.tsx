@@ -1,5 +1,5 @@
-import { motion, useAnimation } from "framer-motion";
-import { useEffect, useState } from "react";
+import { motion, useAnimation, Variants } from "framer-motion";
+import { useEffect } from "react";
 import { ColorTailwindHelper } from "./Color";
 import { LetterState } from "./word-utils";
 
@@ -10,6 +10,7 @@ interface WordRowProps {
   wordGuess?: LetterState[];
   className?: string;
   shouldBreathe?: boolean;
+  rowKey: number;
 }
 
 export const WordRow: React.FC<WordRowProps> = ({
@@ -17,6 +18,7 @@ export const WordRow: React.FC<WordRowProps> = ({
   wordGuess,
   className = "",
   shouldBreathe = true,
+  rowKey,
 }: WordRowProps) => {
   const lettersRemaining = LETTER_LENGTH - letters.length;
   const currentWord = letters
@@ -31,7 +33,8 @@ export const WordRow: React.FC<WordRowProps> = ({
             letter={char}
             guess={guess}
             shouldBreathe={shouldBreathe}
-            key={idx}
+            rowKey={rowKey}
+            colKey={idx}
           />
         );
       })}
@@ -43,12 +46,33 @@ interface CharacterBoxProps {
   guess?: LetterState;
   letter: string;
   shouldBreathe?: boolean;
+  colKey: number;
+  rowKey: number;
 }
+
+const variants: Variants = {
+  hidden: {
+    y: "-75vh",
+  },
+};
 
 const CharacterBox = (props: CharacterBoxProps) => {
   const controls = useAnimation();
   useEffect(() => {
-    if (props.letter) {
+    if (!props.shouldBreathe) return;
+    const delay = props.rowKey * 5 + props.colKey;
+    controls.set(variants.hidden);
+    controls.start({
+      transition: {
+        delay: delay * 0.05,
+      },
+      opacity: 1,
+      y: 0,
+    });
+  }, []);
+
+  useEffect(() => {
+    if (props.letter && props.shouldBreathe) {
       controls.start((i) => ({
         scale: [1, 1.1, 1],
         transition: {
@@ -64,7 +88,7 @@ const CharacterBox = (props: CharacterBoxProps) => {
       ? `${ColorTailwindHelper[props.guess]}`
       : "border-gray-200 bg-white";
 
-  return (
+  const letterBox = (
     <motion.span
       animate={controls}
       key={props.letter}
@@ -73,4 +97,6 @@ const CharacterBox = (props: CharacterBoxProps) => {
       {props.letter}
     </motion.span>
   );
+
+  return letterBox;
 };

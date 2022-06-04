@@ -19,7 +19,6 @@ export default function App() {
   const currentGuess: string = useStore((store) => store.currentGuess);
   const existingGuesses: WordGuess[] = useStore((store) => store.userGuesses);
   const isGameOver = useStore((store) => store.isGameOver);
-
   const [showStats, setShowStats] = useState(false);
 
   let rows: Partial<WordGuess>[] = [...existingGuesses];
@@ -33,16 +32,16 @@ export default function App() {
 
   const renderRows = () => {
     return rows.map((guess, idx) => (
-      <WordRow
-        key={idx}
-        letters={guess.word}
-        wordGuess={guess.result}
-        className={
-          showInvalidGuess && idx === existingGuesses.length
-            ? "animate-wiggle"
-            : ""
-        }
-      />
+      <div>
+        <WordRow
+          rowKey={idx}
+          letters={guess.word}
+          wordGuess={guess.result}
+          className={
+            showInvalidGuess && idx === existingGuesses.length ? "animate" : ""
+          }
+        />
+      </div>
     ));
   };
 
