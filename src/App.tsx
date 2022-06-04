@@ -32,16 +32,15 @@ export default function App() {
 
   const renderRows = () => {
     return rows.map((guess, idx) => (
-      <div>
-        <WordRow
-          rowKey={idx}
-          letters={guess.word}
-          wordGuess={guess.result}
-          className={
-            showInvalidGuess && idx === existingGuesses.length ? "animate" : ""
-          }
-        />
-      </div>
+      <WordRow
+        key={idx}
+        rowKey={idx}
+        letters={guess.word}
+        wordGuess={guess.result}
+        className={
+          showInvalidGuess && idx === existingGuesses.length ? "animate" : ""
+        }
+      />
     ));
   };
 

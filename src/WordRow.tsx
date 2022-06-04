@@ -30,6 +30,7 @@ export const WordRow: React.FC<WordRowProps> = ({
         const guess = wordGuess?.[idx];
         return (
           <CharacterBox
+            key={idx}
             letter={char}
             guess={guess}
             shouldBreathe={shouldBreathe}
