@@ -35,6 +35,7 @@ const GameOverModal: React.FC = () => {
         letters={answer}
         shouldBreathe={false}
         className="items-center"
+        rowKey={0}
       />
       <button
         className="bg-blue-500 hover:bg-blue-700 text-white py-1 px-1 border border-blue-700 rounded mx-4 w-11/12 h-14 mt-4"

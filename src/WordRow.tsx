@@ -1,4 +1,4 @@
-import { motion, useAnimation } from "framer-motion";
+import { motion, useAnimation, Variants } from "framer-motion";
 import { useEffect } from "react";
 import { ColorTailwindHelper } from "./Color";
 import { LetterState } from "./word-utils";
@@ -10,6 +10,7 @@ interface WordRowProps {
   wordGuess?: LetterState[];
   className?: string;
   shouldBreathe?: boolean;
+  rowKey: number;
 }
 
 export const WordRow: React.FC<WordRowProps> = ({
@@ -17,6 +18,7 @@ export const WordRow: React.FC<WordRowProps> = ({
   wordGuess,
   className = "",
   shouldBreathe = true,
+  rowKey,
 }: WordRowProps) => {
   const lettersRemaining = LETTER_LENGTH - letters.length;
   const currentWord = letters
@@ -31,7 +33,8 @@ export const WordRow: React.FC<WordRowProps> = ({
             letter={char}
             guess={guess}
             shouldBreathe={shouldBreathe}
-            key={idx}
+            rowKey={rowKey}
+            colKey={idx}
           />
         );
       })}
@@ -43,19 +46,33 @@ interface CharacterBoxProps {
   guess?: LetterState;
   letter: string;
   shouldBreathe?: boolean;
+  colKey: number;
+  rowKey: number;
 }
 
+const variants: Variants = {
+  hidden: {
+    y: "-75vh",
+  },
+};
+
 const CharacterBox = (props: CharacterBoxProps) => {
-  const variants = {
-    hidden: { opacity: 0, y: "-1000vh" },
-    mounted: { opacity: 1, y: 0 },
-  };
   const controls = useAnimation();
-  // useEffect(() => {
-  //   controls.variants = variants;
-  // }, []);
   useEffect(() => {
-    if (props.letter) {
+    if (!props.shouldBreathe) return;
+    const delay = props.rowKey * 5 + props.colKey;
+    controls.set(variants.hidden);
+    controls.start({
+      transition: {
+        delay: delay * 0.05,
+      },
+      opacity: 1,
+      y: 0,
+    });
+  }, []);
+
+  useEffect(() => {
+    if (props.letter && props.shouldBreathe) {
       controls.start((i) => ({
         scale: [1, 1.1, 1],
         transition: {
@@ -73,8 +90,7 @@ const CharacterBox = (props: CharacterBoxProps) => {
 
   const letterBox = (
     <motion.span
-      // animate={controls}
-      variants={variants}
+      animate={controls}
       key={props.letter}
       className={`border-2 border-gray-500 p-2 uppercase font-bold text-2xl text-center before:inline-block before:content-['_'] ${backgroundStyle} `}
     >
