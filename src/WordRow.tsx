@@ -52,7 +52,7 @@ interface CharacterBoxProps {
 
 const variants: Variants = {
   hidden: {
-    y: "-75vh",
+    y: "-600px",
   },
 };
 
@@ -66,7 +66,6 @@ const CharacterBox = (props: CharacterBoxProps) => {
       transition: {
         delay: delay * 0.05,
       },
-      opacity: 1,
       y: 0,
     });
   }, []);
