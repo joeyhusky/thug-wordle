@@ -25,7 +25,7 @@ export const Keyboard: React.FC = () => {
         >
           {keyboardRow.map((letter, idx) => {
             let styles =
-              "transition ease-in-out hover:scale-110 rounded font-bold uppercase flex-1 py-2 antialiased ";
+              "transition ease-in-out hover:scale-110 rounded border border-neutral-500 font-bold uppercase flex-1 py-2 antialiased drop-shadow-md ";
             let keypressCallback = () => keyPressed(letter);
             if (letter === "Backspace")
               keypressCallback = () => backspacePressed();
