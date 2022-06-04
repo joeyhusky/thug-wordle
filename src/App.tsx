@@ -8,7 +8,7 @@ import { useTimestampListener } from "./TimestampListener";
 import UserStatsModalDialog from "./UserStatistics/UserStatsModalDialog";
 import { WordGuess } from "./word-utils";
 import { WordRow } from "./WordRow";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 
 export const NUMBER_OF_GUESSES = 6;
 export const TITLE = "Norberdle";
@@ -33,17 +33,20 @@ export default function App() {
   }
 
   const renderRows = () => {
-    return rows.map((guess, idx) => (
-      <WordRow
-        key={idx}
-        rowKey={idx}
-        letters={guess.word}
-        wordGuess={guess.result}
-        className={
-          showInvalidGuess && idx === existingGuesses.length ? "animate" : ""
-        }
-      />
-    ));
+    return rows.map((guess, idx) => {
+      const isCurrentlyGuessing = idx === existingGuesses.length;
+
+      return (
+        <WordRow
+          key={idx}
+          rowKey={idx}
+          letters={guess.word}
+          wordGuess={guess.result}
+          isCurrentlyGuessing={isCurrentlyGuessing}
+          className={showInvalidGuess && isCurrentlyGuessing ? "animate" : ""}
+        />
+      );
+    });
   };
 
   return (

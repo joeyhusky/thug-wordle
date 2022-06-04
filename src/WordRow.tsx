@@ -1,4 +1,5 @@
 import { motion, useAnimation, Variants } from "framer-motion";
+import React from "react";
 import { useEffect } from "react";
 import { ColorTailwindHelper } from "./Color";
 import { LetterState } from "./word-utils";
@@ -10,6 +11,7 @@ interface WordRowProps {
   wordGuess?: LetterState[];
   className?: string;
   shouldBreathe?: boolean;
+  isCurrentlyGuessing?: boolean; // currently unused
   rowKey: number;
 }
 
@@ -92,7 +94,7 @@ const CharacterBox = (props: CharacterBoxProps) => {
     <motion.span
       animate={controls}
       key={props.letter}
-      className={`border-2 border-gray-500 p-2 uppercase font-bold text-2xl text-center before:inline-block before:content-['_'] ${backgroundStyle} `}
+      className={`border border-stone-500 p-2 uppercase rounded font-bold text-2xl text-center before:inline-block before:content-['_'] ${backgroundStyle} `}
     >
       {props.letter}
     </motion.span>
