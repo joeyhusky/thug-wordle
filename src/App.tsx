@@ -49,15 +49,11 @@ export default function App() {
   return (
     <AnimatePresence>
       <div className="mx-auto relative w-96 px-2 lg:px-0">
-        <motion.header
-          className="border-b border-gray-500 pb-2 my-2"
-          initial={{ y: "-300px" }}
-          animate={{ y: 0 }}
-        >
+        <header className="border-b border-gray-500 pb-2 my-2">
           <h1 className="text-4xl text-center">{TITLE}</h1>
           <h2 className="text-sm text-center">{SUBTITLE}</h2>
           <StatsButton isShowingStats={showStats} setShowStats={setShowStats} />
-        </motion.header>
+        </header>
         <main className="grid grid-rows-6 gap-4 my-4">{renderRows()}</main>
         <Keyboard />
         {showStats && <UserStatsModalDialog close={closeStats} />}

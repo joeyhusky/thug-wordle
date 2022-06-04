@@ -1,7 +1,6 @@
 import { ColorTailwindHelper } from "../Color";
 import { useStore } from "../StateStore";
 import { HiOutlineBackspace as BackspaceIcon } from "react-icons/hi";
-import { motion } from "framer-motion";
 
 export const Keyboard: React.FC = () => {
   const keyPressed = useStore((store) => store.letterPressed);
@@ -17,12 +16,7 @@ export const Keyboard: React.FC = () => {
   };
 
   return (
-    <motion.div
-      className={"flex flex-col"}
-      initial={{ y: "500px" }}
-      animate={{ y: 0 }}
-      id="keyboard"
-    >
+    <div className={"flex flex-col"} id="keyboard">
       {keyboardKeys.map((keyboardRow, rowIdx) => (
         <div
           key={rowIdx}
@@ -59,7 +53,7 @@ export const Keyboard: React.FC = () => {
           })}
         </div>
       ))}
-    </motion.div>
+    </div>
   );
 };
 
