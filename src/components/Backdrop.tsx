@@ -13,6 +13,7 @@ const Backdrop: React.FC<Props> = ({ onClick }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+      key={"backdrop"}
     ></motion.div>
   );
 };
